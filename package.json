@@ -1,7 +1,7 @@
 {
-  "name": "ci-template-project",
+  "name": "JINNOV Global API",
   "version": "1.0.0",
-  "description": "A template project for CI/CD",
+  "description": "This API is used to manage studies, clients, suppliers, and users at JINNOV, in order to provide a global view of the Junior-Enterprise.\n\nThis API is used by the JINNOV Global Frontend, which is a web application used by the JINNOV Global team to manage the Junior-Enterprise.",
   "scripts": {
     "semantic-release": "semantic-release"
   },
@@ -25,7 +25,7 @@
     "branches": [
       "main"
     ],
-    "repositoryUrl": "https://github.com/robjo82/ci-template.git",
+    "repositoryUrl": "https://github.com/robjo82/JINNOVGlobalAPI.git",
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
