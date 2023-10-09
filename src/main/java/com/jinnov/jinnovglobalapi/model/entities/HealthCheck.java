@@ -1,4 +1,4 @@
-package com.jinnov.jinnovglobalapi.model;
+package com.jinnov.jinnovglobalapi.model.entities;
 
 import com.jinnov.jinnovglobalapi.model.enums.HealthCheckStatus;
 import lombok.AllArgsConstructor;
