@@ -1,6 +1,6 @@
 package com.jinnov.jinnovglobalapi.service;
 
-import com.jinnov.jinnovglobalapi.model.HealthCheck;
+import com.jinnov.jinnovglobalapi.model.entities.HealthCheck;
 import com.jinnov.jinnovglobalapi.model.enums.HealthCheckStatus;
 import com.jinnov.jinnovglobalapi.repository.IHealthCheckRepository;
 import lombok.AllArgsConstructor;

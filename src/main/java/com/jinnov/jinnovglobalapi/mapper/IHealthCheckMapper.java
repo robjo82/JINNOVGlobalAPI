@@ -1,6 +1,6 @@
 package com.jinnov.jinnovglobalapi.mapper;
 
-import com.jinnov.jinnovglobalapi.model.HealthCheck;
+import com.jinnov.jinnovglobalapi.model.entities.HealthCheck;
 import com.jinnov.jinnovglobalapi.model.dto.HealthCheckDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
