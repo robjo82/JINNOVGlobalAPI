@@ -83,6 +83,26 @@
 			<version>2.2.0</version>
 		</dependency>
 
+		<!-- Firebase -->
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>9.2.0</version>
+		</dependency>
+
+		<!-- MondayMapper -->
+		<dependency>
+			<groupId>org.springframework.graphql</groupId>
+			<artifactId>spring-graphql</artifactId>
+			<version>1.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+			<version>3.1.4</version>
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
