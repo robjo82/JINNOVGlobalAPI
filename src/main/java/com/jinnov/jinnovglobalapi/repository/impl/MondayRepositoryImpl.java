@@ -23,17 +23,23 @@ public class MondayRepositoryImpl {
         this.objectMapper = new ObjectMapper();
     }
 
-    public LocalGraphQLResponse getBoardItems(long boardId, int maxItems, String token) {
+    public LocalGraphQLResponse getBoardItems(String boardId, String maxItems, String cursor, String token) {
         WebGraphQlClient client = clientBuilder
                 .header("Authorization", token)
                 .build();
 
         String query = """
                 {
+                  complexity{
+                      after
+                      query
+                      reset_in_x_seconds
+                    }
                   boards(ids:\s""" + boardId + """
                     ) {
-                    items_page(limit:\s""" + maxItems + """
+                    items_page(limit:\s""" + maxItems + ", cursor: \"" + cursor +"\""+ """
                       ) {
+                      cursor
                       items {
                         name
                         column_values {

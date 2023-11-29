@@ -6,7 +6,15 @@ import java.util.List;
 
 @Data
 public class LocalGraphQLResponse {
+    private Complexity complexity;
     private List<Board> boards;
+
+    @Data
+    public static class Complexity {
+        private String after;
+        private String query;
+        private String reset_in_x_seconds;
+    }
 
     @Data
     public static class Board {
@@ -14,6 +22,7 @@ public class LocalGraphQLResponse {
 
         @Data
         public static class ItemsPage {
+            private String cursor;
             private List<Item> items;
 
             @Data
