@@ -1,9 +1,10 @@
 package com.jinnov.jinnovglobalapi.mapper.externalToDto;
 
 import com.jinnov.jinnovglobalapi.model.dto.KPIReportDTO;
-import com.jinnov.jinnovglobalapi.model.external.monday.LocalGraphQLResponse;
+import com.jinnov.jinnovglobalapi.model.external.monday.LocalGraphQLResponseBoard;
 import com.jinnov.jinnovglobalapi.model.dto.KPIDTO;
 
+import com.jinnov.jinnovglobalapi.model.external.monday.LocalGraphQLResponseItem;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -19,11 +20,12 @@ public class MondayMapper {
     private static final String PERSONNES = "personnes";
     private static final String DUREE = "dur_e";
 
-    public KPIDTO mapItemToKpiDto(LocalGraphQLResponse.Board.ItemsPage.Item item) {
+    public KPIDTO mapItemToKpiDto(LocalGraphQLResponseItem item) {
         KPIDTO kpiDto = new KPIDTO();
         kpiDto.setDescription(item.getName());
+        kpiDto.setId(item.getId());
 
-        for (LocalGraphQLResponse.Board.ItemsPage.Item.ColumnValue columnValue : item.getColumn_values()) {
+        for (LocalGraphQLResponseItem.ColumnValue columnValue : item.getColumn_values()) {
             switch (columnValue.getId()) {
                 case CHIFFRES:
                     kpiDto.setGoal(columnValue.getText());
@@ -41,29 +43,32 @@ public class MondayMapper {
         }
 
         if (item.getSubitems() != null && !item.getSubitems().isEmpty()) {
-            List<LocalGraphQLResponse.Board.ItemsPage.Item.SubItem> sortedSubItems = item.getSubitems().stream()
+            List<LocalGraphQLResponseItem.SubItem> sortedSubItems = item.getSubitems().stream()
                     .sorted(Comparator.comparing(subItem -> LocalDate.parse(getColumnValue(subItem.getColumn_values(), DATE0))))
                     .toList();
 
-            LocalGraphQLResponse.Board.ItemsPage.Item.SubItem lastSubItem = sortedSubItems.get(sortedSubItems.size() - 1);
+            LocalGraphQLResponseItem.SubItem lastSubItem = sortedSubItems.get(sortedSubItems.size() - 1);
             kpiDto.setLastValue(getColumnValue(lastSubItem.getColumn_values(), CHIFFRES));
             kpiDto.setLastUpdate(getColumnValue(lastSubItem.getColumn_values(), DATE0));
             kpiDto.setNextUpdate(calculateNextUpdate(kpiDto.getLastUpdate(), kpiDto.getReportingFrequency()));
             kpiDto.setAdvancement(calculateAdvancement(kpiDto.getLastValue(), kpiDto.getGoal()));
 
             kpiDto.setHistory(sortedSubItems.stream()
-                    .map(subItem -> new KPIReportDTO(getColumnValue(subItem.getColumn_values(), DATE0), getColumnValue(subItem.getColumn_values(), CHIFFRES)))
+                    .map(subItem -> new KPIReportDTO(
+                            LocalDate.parse(getColumnValue(subItem.getColumn_values(), DATE0)),
+                            getColumnValue(subItem.getColumn_values(), CHIFFRES)
+                    ))
                     .toList());
         }
 
         return kpiDto;
     }
 
-    private String getColumnValue(List<LocalGraphQLResponse.Board.ItemsPage.Item.ColumnValue> columnValues, String id) {
+    private String getColumnValue(List<LocalGraphQLResponseItem.ColumnValue> columnValues, String id) {
         return columnValues.stream()
                 .filter(cv -> cv.getId().equals(id))
                 .findFirst()
-                .map(LocalGraphQLResponse.Board.ItemsPage.Item.ColumnValue::getText)
+                .map(LocalGraphQLResponseItem.ColumnValue::getText)
                 .orElse(null);
     }
 
@@ -78,7 +83,7 @@ public class MondayMapper {
         return String.format("%.2f%%", (Double.parseDouble(lastValue) / Double.parseDouble(goal)) * 100);
     }
 
-    public List<KPIDTO> mapResponseToKpiDtoList(LocalGraphQLResponse response) {
+    public List<KPIDTO> mapResponseToKpiDtoList(LocalGraphQLResponseBoard response) {
         return response.getBoards().stream()
                 .flatMap(board -> board.getItems_page().getItems().stream())
                 .map(this::mapItemToKpiDto)

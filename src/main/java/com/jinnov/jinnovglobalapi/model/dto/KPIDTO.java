@@ -12,6 +12,12 @@ import java.util.List;
 )
 public class KPIDTO {
     @Schema(
+            description = "The id of the KPI",
+            example = "559357158"
+    )
+    private String id;
+
+    @Schema(
             description = "The name of the KPI",
             example = "Réaliser 40 000 € de CA"
     )
