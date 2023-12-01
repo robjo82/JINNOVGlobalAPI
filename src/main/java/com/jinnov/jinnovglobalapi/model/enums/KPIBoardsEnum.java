@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum KPIBoards {
+public enum KPIBoardsEnum {
     GLOBAL_KPI("4329614614"),
     BUSINESS_UNIT("4591123737"),
     QUALITY("5055895830"),
