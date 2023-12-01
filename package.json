@@ -1,6 +1,6 @@
 {
   "name": "jinnov-global-api",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "This API is used to manage studies, clients, suppliers, and users at JINNOV, in order to provide a global view of the Junior-Enterprise.\n\nThis API is used by the JINNOV Global Frontend, which is a web application used by the JINNOV Global team to manage the Junior-Enterprise.",
   "scripts": {
     "semantic-release": "semantic-release"
